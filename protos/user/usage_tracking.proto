@@ -1,0 +1,73 @@
+syntax = "proto3";
+
+package renaissasance_games.usage;
+
+// Feature types for usage tracking
+enum FeatureType {
+  FEATURE_UNKNOWN = 0;
+  FEATURE_CHAT = 1;
+  FEATURE_AGENT = 2;
+}
+
+// Usage validation request
+message UsageValidationRequest {
+  string machine_id = 1;
+  FeatureType feature_type = 2;
+  string year_month = 3;  // Format: "2025-01"
+  string license_key = 4; // Optional, empty for free tier
+}
+
+// Usage validation response
+message UsageValidationResponse {
+  bool can_use = 1;
+  int32 current_usage = 2;
+  int32 usage_limit = 3;
+  string user_type = 4;    // "free" or "premium"
+  string message = 5;      // Optional error/info message
+}
+
+// Usage increment request
+message UsageIncrementRequest {
+  string machine_id = 1;
+  FeatureType feature_type = 2;
+  string year_month = 3;
+  string license_key = 4; // Optional
+}
+
+// Usage increment response
+message UsageIncrementResponse {
+  bool success = 1;
+  int32 new_usage_count = 2;
+  string message = 3;
+}
+
+// Usage info request (for display purposes)
+message UsageInfoRequest {
+  string machine_id = 1;
+  FeatureType feature_type = 2;
+  string year_month = 3;
+  string license_key = 4; // Optional
+}
+
+// Usage info response
+message UsageInfoResponse {
+  bool can_use = 1;
+  int32 current_usage = 2;
+  int32 usage_limit = 3;
+  string user_type = 4;
+  string message = 5;
+}
+
+// License validation request
+message LicenseValidationRequest {
+  string license_key = 1;
+  string machine_id = 2;
+}
+
+// License validation response
+message LicenseValidationResponse {
+  bool is_valid = 1;
+  string user_id = 2;
+  string plan_type = 3;  // "free", "pro", "enterprise"
+  string message = 4;    // Optional error/info message
+}
